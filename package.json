@@ -1,0 +1,26 @@
+{
+  "name": "tetris-party",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ignisco/TetrisParty.git"
+  },
+  "author": "ignisco and jonatso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ignisco/TetrisParty/issues"
+  },
+  "homepage": "https://github.com/ignisco/TetrisParty#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
