@@ -30,7 +30,7 @@ class Shape {
             }
         }
         //this.shadowColor = this.color.substring(0, this.color.length-2) + "0.6)"; // World Record in ugly code
-        this.shadowColor = "white";
+        this.shadowColor = "grey";
         this.lowestBlock = this.getLowestBlock();
         this.posY = 0 - (this.lowestBlock + 1);
 

@@ -1,32 +1,34 @@
-body{
-    font-family: 'Nunito';
+canvas {
+    background-color: black;
 }
 
-#gameCv {
-    display: block;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-    height: 1200px;
+#canvasesDiv{
+    display: flex;
+    flex-direction: row;
 }
 
-#holdCv {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 240px;
-    height: 160px;
+.playerDivs {
+    background-color: rgb(28, 94, 44);
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding: 30px;
+    width: fit-content;
 }
 
-#nextCv {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 240px;
-    height: 480px;
+.gameCVs {
 }
 
+.otherCVs {
+    /*background-color: #253;*/
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding-right: 30px;
+}
 
-
+p {
+    color: white;
+    font-size: 30px;
+    margin: 10px;
+}

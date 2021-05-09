@@ -150,8 +150,8 @@ class Game {
 
     static renderGridlines(ctx, gridSize, gridWidth, gridHeight, width, height) {
 
-        ctx.fillStyle = "grey";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#555";
+        ctx.lineWidth = 4;
 
         // Horizontal lines
         for (let i = 0; i < gridHeight+1; i++) {
@@ -187,9 +187,9 @@ class Game {
     static drawGamePane() {
         // Removing all objects from last frame
         this.gameCtx.beginPath();
-        this.gameCtx.fillStyle = "grey";
+        this.gameCtx.fillStyle = "black";
         this.gameCtx.fillRect(0, 0, this.gameCv.width, this.gameCv.height);
-
+        
         // Rendering grids
         this.renderGrid(this.gameCtx, this.gameGrid, this.GAME_GRID_SIZE);
 
@@ -199,7 +199,7 @@ class Game {
 
     static drawHoldPane() {
         this.holdCtx.beginPath();
-        this.holdCtx.fillStyle = "grey";
+        this.holdCtx.fillStyle = "black";
         this.holdCtx.fillRect(0, 0, this.holdCv.width, this.holdCv.height);
         this.renderGrid(this.holdCtx, this.holdGrid, this.HOLD_GRID_SIZE);
         this.renderGridlines(this.holdCtx, this.HOLD_GRID_SIZE, this.HOLD_GRID_WIDTH, this.HOLD_GRID_HEIGHT, this.HOLD_WIDTH, this.HOLD_HEIGHT);
@@ -207,7 +207,7 @@ class Game {
 
     static drawNextPane() {
         this.nextCtx.beginPath();
-        this.nextCtx.fillStyle = "grey";
+        this.nextCtx.fillStyle = "black";
         this.nextCtx.fillRect(0, 0, this.nextCv.width, this.nextCv.height);
         this.renderGrid(this.nextCtx, this.nextGrid, this.NEXT_GRID_SIZE);
         this.renderGridlines(this.nextCtx, this.NEXT_GRID_SIZE, this.NEXT_GRID_WIDTH, this.NEXT_GRID_HEIGHT, this.NEXT_WIDTH, this.NEXT_HEIGHT);

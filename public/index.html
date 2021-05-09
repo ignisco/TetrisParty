@@ -8,13 +8,23 @@
     </head>
     <body>
         <div id="canvasesDiv">
-            <div id="otherPlayerDiv">
-
+            <div id="thisPlayerDiv" class="playerDivs">
+                <canvas id="gameCv" class="gameCvs" width="500" height="1200"></canvas>
+                <div class="otherCVs">
+                    <p>Hold</p>
+                    <canvas id="holdCv" class="holdCvs" width="240" height="160"></canvas>
+                    <p>Next</p>
+                    <canvas id="nextCv" class="nextCvs" width="240" height="480"></canvas>
+                </div>
             </div>
-            <div id="thisPlayerDiv">
-                <canvas id="gameCv" width="500" height="1200"></canvas>
-                <canvas id="holdCv" width="240" height="160"></canvas>
-                <canvas id="nextCv" width="240" height="480"></canvas>
+            <div id="otherPlayerDiv" class="playerDivs">
+                <canvas class="gameCvs" width="500" height="1200"></canvas>
+                <div class="otherCVs">
+                    <p>Hold</p>
+                    <canvas class="holdCvs" width="240" height="160"></canvas>
+                    <p>Next</p>
+                    <canvas class="nextCvs" width="240" height="480"></canvas>
+                </div>
             </div>
         </div>
     </body>
