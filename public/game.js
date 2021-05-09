@@ -52,6 +52,8 @@ class Game {
 
     static score = 0;
     static linesCleared = 0;
+    static scoreText = document.getElementById('scoreText');
+    static linesText = document.getElementById('linesText');
     static nextShapes = new Array(3);
     static holdShape;
     static gameController;
@@ -393,10 +395,11 @@ class Game {
             default:
                 break;
         }
+        linesText.innerText = 'Lines: ' + this.linesCleared;
     }
 
     static updateScore() {
-        // TODO: fill in code
+        scoreText.innerText = 'Score: ' + this.score;   
     }
 
 
