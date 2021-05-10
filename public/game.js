@@ -1,5 +1,5 @@
 // Make connection
-var socket = io.connect('192.168.10.182:4000');
+var socket = io.connect('localhost:4000');
 var otherSocketId;
 var sendDataInterval;
 
