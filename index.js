@@ -19,7 +19,14 @@ io.on('connection', (socket) => {
 
     console.log('made socket connection', socket.id);
 
-    //TODO: add on-leave functionality
+    // Removing from playerToGame on disconnect
+    socket.once('disconnect', function() {
+        let gameId = playerToGame.get(socket.id);
+        playerToGame.delete(socket.id);
+        let otherSocket = Array.from(playerToGame.keys()).find(key => playerToGame.get(key) == gameId);
+        io.sockets.to(otherSocket).emit('opponentDisconnected');
+
+    });
 
     // Host new game
     socket.on('hostGame', function(){
