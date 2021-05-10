@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+body {
+    font-family: 'Merriweather', serif;
+    background-color: #ccc;
+}
+
 canvas {
     background-color: black;
 }
@@ -12,31 +19,61 @@ canvas {
     background-color: rgb(43, 43, 43);
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    padding: 30px;
-    width: fit-content;
-}
-
-.gameCVs {
-}
-
-.sideCVs {
-    /*background-color: #253;*/
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    padding-right: 30px;
+    padding: 1.5vh;
     
 }
 
-p {
-    color: white;
-    font-size: 30px;
-    margin: 10px;
+.gameCvs {
+    height: 90vh;
+    width: 37.5vh;
 }
 
+.sideCVs {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding-right: 1.5vh;
+    width: min-content; /*fixed text streching div*/
+}
+
+.holdCvs {
+    height: 12vh;
+    width: 20vh;
+}
+
+.nextCvs {
+    height: 40vh;
+    width: 20vh;
+}
+
+h3 {
+    text-align: center;
+    color: white;
+    font-size: 2vh;
+    margin: 0.6vh;
+}
+
+p {
+    text-align: center;
+    color: white;
+    font-size: 1.5vh;
+    margin: 0.5vh;
+}
+
+
+
 button, input {
-    padding: 10px;
-    border-radius: 10px;
-    margin:10px
+    font-family: 'Merriweather', serif;
+    background-color: #111;
+    color: white;
+    text-align: center;
+    font-size: 1.4vh;
+    border: solid 0.25vh #555;
+    border-radius: 0.8vh;
+    padding: 0.8vh;
+    margin: 0.5vh;
+}
+
+button:hover {
+    background-color: #222;
 }

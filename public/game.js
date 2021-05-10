@@ -23,8 +23,6 @@ class Game {
     static otherNextCv = document.getElementById("otherNextCv");
     static otherNextCtx = otherNextCv.getContext('2d');
 
-    static otherScoreText = document.getElementById('otherScoreText');
-    static otherLinesText = document.getElementById('otherLinesText');
 
 
     
@@ -64,8 +62,6 @@ class Game {
 
     static score = 0;
     static linesCleared = 0;
-    static scoreText = document.getElementById('scoreText');
-    static linesText = document.getElementById('linesText');
     static nextShapes = new Array(3);
     static holdShape;
     static gameController;
@@ -401,11 +397,13 @@ class Game {
     }
 
     static updateScore() {
+        return;
         scoreText.innerText = 'Score: ' + this.score;
         linesText.innerText = 'Lines: ' + this.linesCleared;   
     }
 
     static updateOtherScore(score, linesCleared) {
+        return;
         otherScoreText.innerText = 'Score: ' + score;
         otherLinesText.innerText = 'Lines: ' + linesCleared;  
     }
