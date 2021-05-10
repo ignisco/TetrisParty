@@ -75,13 +75,6 @@ io.on('connection', (socket) => {
     // Send game state
     socket.on('sendGameState', function(gameState){
         io.sockets.to(gameState.recipient).emit('receiveGameState', gameState);
-        // for (let entry of playerToGame.entries()) {
-        //     if (entry[1] == playerToGame.get(socket.id)) { // gameId equals this socket's gameId
-        //         if (entry[0] != socket.id) {    // but the socketId is different 
-        //             io.sockets.to(entry[0]).emit('receiveGameState', gameState);
-        //         }
-        //     } 
-        // }
     });
 
      // Notify other player you got game over

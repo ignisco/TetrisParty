@@ -97,15 +97,3 @@ socket.on('opponentDisconnected', function(){
     hostingFeedback.style.color = "yellow";
     Game.setGameOver();
 });
-
-
-
-// Render gridlines on page load
-// Game.renderGridlines(Game.gameCtx, Game.GAME_GRID_SIZE, Game.GAME_GRID_WIDTH, Game.GAME_GRID_HEIGHT, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-// Game.renderGridlines(Game.holdCtx, Game.HOLD_GRID_SIZE, Game.HOLD_GRID_WIDTH, Game.HOLD_GRID_HEIGHT, Game.HOLD_WIDTH, Game.HOLD_HEIGHT);
-// Game.renderGridlines(Game.nextCtx, Game.NEXT_GRID_SIZE, Game.NEXT_GRID_WIDTH, Game.NEXT_GRID_HEIGHT, Game.NEXT_WIDTH, Game.NEXT_HEIGHT);
-
-// Game.renderGridlines(Game.otherGameCtx, Game.GAME_GRID_SIZE, Game.GAME_GRID_WIDTH, Game.GAME_GRID_HEIGHT, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-// Game.renderGridlines(Game.otherHoldCtx, Game.HOLD_GRID_SIZE, Game.HOLD_GRID_WIDTH, Game.HOLD_GRID_HEIGHT, Game.HOLD_WIDTH, Game.HOLD_HEIGHT);
-// Game.renderGridlines(Game.otherNextCtx, Game.NEXT_GRID_SIZE, Game.NEXT_GRID_WIDTH, Game.NEXT_GRID_HEIGHT, Game.NEXT_WIDTH, Game.NEXT_HEIGHT);
-
