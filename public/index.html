@@ -10,7 +10,7 @@
         <div id="canvasesDiv">
             <div id="thisPlayerDiv" class="playerDivs">
                 <canvas id="gameCv" class="gameCvs" width="500" height="1200"></canvas>
-                <div class="otherCVs">
+                <div class="sideCVs">
                     <p>Hold</p>
                     <canvas id="holdCv" class="holdCvs" width="240" height="160"></canvas>
                     <p>Next</p>
@@ -19,13 +19,13 @@
                     <p id="linesText">Lines: 0</p>
                     <button id="hostButton">Host Game</button>
                     <button id="joinButton">Join Game</button>
-                    <input type="text" id="gameIdInputField" placeholder="Game ID">
+                    <input type="number" id="gameIdInputField" minlength="4" maxlength="4" placeholder="Game ID">
                     <p id="hostingFeedback">Currently not hosting</p>
                 </div>
             </div>
             <div id="otherPlayerDiv" class="playerDivs">
                 <canvas id="otherGameCv" class="gameCvs" width="500" height="1200"></canvas>
-                <div class="otherCVs">
+                <div class="sideCVs">
                     <p>Hold</p>
                     <canvas id="otherHoldCv" class="holdCvs" width="240" height="160"></canvas>
                     <p>Next</p>
