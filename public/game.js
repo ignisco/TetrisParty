@@ -87,6 +87,8 @@ class Game {
     static canUseHold;
     static gameOver;
 
+    static music = new Audio();     // Tetris theme music  
+
 
     static init() {
         // Setting up default key values to false for activeKeys
@@ -131,11 +133,16 @@ class Game {
         this.linesCleared = 0;
         this.updateScore();
 
-        // Reset timers; only need to check if one of the timeouts is defined
+        // Resets timers; only need to check if one of the timeouts is defined
         if (this.logicTimerTimeout) {
             clearTimeout(this.logicTimerTimeout);
             clearTimeout(this.inputTimerTimeout);
-        } 
+        }
+
+        // Resets music
+        this.music.pause();
+        this.music.src = "audio/song.mp3";
+        this.music.play();
 
     }
 
