@@ -15,6 +15,18 @@ var KeyCode = {
 
 
 class Game {
+    // Opponent Cv/Ctx and score/linesCleared
+    static otherGameCv = document.getElementById("otherGameCv");
+    static otherGameCtx = otherGameCv.getContext('2d');
+    static otherHoldCv = document.getElementById("otherHoldCv");
+    static otherHoldCtx = otherHoldCv.getContext('2d');
+    static otherNextCv = document.getElementById("otherNextCv");
+    static otherNextCtx = otherNextCv.getContext('2d');
+
+    static otherScoreText = document.getElementById('otherScoreText');
+    static otherLinesText = document.getElementById('otherLinesText');
+
+
     
     // game window variables
     static GAME_GRID_SIZE = 50;
@@ -130,21 +142,23 @@ class Game {
         this.updateNextShapeQueue();
 
         // Timer controlling how fast shapes fall
-        function logicTimer(gameObject) {
-            gameObject.update();
-            gameObject.drawGamePane();
-            gameObject.drawHoldPane();
-            if (!gameObject.gameOver) window.setTimeout(function () {logicTimer(gameObject)}, 250);
+        function logicTimer() {
+            Game.update();
+            Game.drawPane(Game.gameCv, Game.gameCtx, Game.gameGrid, Game.GAME_GRID_SIZE, 
+                Game.GAME_GRID_WIDTH, Game.GAME_GRID_HEIGHT, Game.GAME_WIDTH, Game.GAME_HEIGHT)
+            Game.drawPane(Game.holdCv, Game.holdCtx, Game.holdGrid, Game.HOLD_GRID_SIZE, 
+                Game.HOLD_GRID_WIDTH, Game.HOLD_GRID_HEIGHT, Game.HOLD_WIDTH, Game.HOLD_HEIGHT)
+            if (!Game.gameOver) window.setTimeout(logicTimer, 250);
         }
-        logicTimer(this);
+        logicTimer();
 
 
         // Timer related to how frequently input keys affect the game logic
-        function inputTimer(gameObject) {
-            gameObject.activeKeysHandling();
-            if (!gameObject.gameOver) window.setTimeout(function () {inputTimer(gameObject)}, 1000 / 30);
+        function inputTimer() {
+            Game.activeKeysHandling();
+            if (!Game.gameOver) window.setTimeout(inputTimer, 1000 / 30);
         }
-        inputTimer(this);
+        inputTimer();
 
         //MusicPlayer.play();
     }
@@ -186,34 +200,20 @@ class Game {
 
 
 
-    static drawGamePane() {
+    static drawPane(cv, ctx, grid, gridSize, gridWidth, gridHeight, width, height) {
         // Removing all objects from last frame
-        this.gameCtx.beginPath();
-        this.gameCtx.fillStyle = "black";
-        this.gameCtx.fillRect(0, 0, this.gameCv.width, this.gameCv.height);
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, cv.width, cv.height);
         
         // Rendering grids
-        this.renderGrid(this.gameCtx, this.gameGrid, this.GAME_GRID_SIZE);
+        this.renderGrid(ctx, grid, gridSize);
 
         // Drawing gridlines
-        this.renderGridlines(this.gameCtx, this.GAME_GRID_SIZE, this.GAME_GRID_WIDTH, this.GAME_GRID_HEIGHT, this.GAME_WIDTH, this.GAME_HEIGHT);
+        this.renderGridlines(ctx, gridSize, gridWidth, gridHeight, width, height);
     }
 
-    static drawHoldPane() {
-        this.holdCtx.beginPath();
-        this.holdCtx.fillStyle = "black";
-        this.holdCtx.fillRect(0, 0, this.holdCv.width, this.holdCv.height);
-        this.renderGrid(this.holdCtx, this.holdGrid, this.HOLD_GRID_SIZE);
-        this.renderGridlines(this.holdCtx, this.HOLD_GRID_SIZE, this.HOLD_GRID_WIDTH, this.HOLD_GRID_HEIGHT, this.HOLD_WIDTH, this.HOLD_HEIGHT);
-    }
 
-    static drawNextPane() {
-        this.nextCtx.beginPath();
-        this.nextCtx.fillStyle = "black";
-        this.nextCtx.fillRect(0, 0, this.nextCv.width, this.nextCv.height);
-        this.renderGrid(this.nextCtx, this.nextGrid, this.NEXT_GRID_SIZE);
-        this.renderGridlines(this.nextCtx, this.NEXT_GRID_SIZE, this.NEXT_GRID_WIDTH, this.NEXT_GRID_HEIGHT, this.NEXT_WIDTH, this.NEXT_HEIGHT);
-    }
 
     static updateNextShapeQueue() {
 
@@ -240,7 +240,8 @@ class Game {
             }
         }
 
-        this.drawNextPane();
+        this.drawPane(this.nextCv, this.nextCtx, this.nextGrid, this.NEXT_GRID_SIZE, 
+            this.NEXT_GRID_WIDTH, this.NEXT_GRID_HEIGHT, this.NEXT_WIDTH, this.NEXT_HEIGHT)
         
     }
 
@@ -274,7 +275,8 @@ class Game {
         let tempShape = new Shape(this.holdGrid, this.holdShape);
         tempShape.move(-1, 3);
 
-        this.drawHoldPane();
+        this.drawPane(this.holdCv, this.holdCtx, this.holdGrid, this.HOLD_GRID_SIZE, 
+            this.HOLD_GRID_WIDTH, this.HOLD_GRID_HEIGHT, this.HOLD_WIDTH, this.HOLD_HEIGHT)
     }
 
 
@@ -368,7 +370,8 @@ class Game {
             this.storeInHold();
         }
         
-        this.drawGamePane();
+        this.drawPane(this.gameCv, this.gameCtx, this.gameGrid, this.GAME_GRID_SIZE, 
+            this.GAME_GRID_WIDTH, this.GAME_GRID_HEIGHT, this.GAME_WIDTH, this.GAME_HEIGHT)
     }
 
     static addShapePoints() {
@@ -395,11 +398,16 @@ class Game {
             default:
                 break;
         }
-        linesText.innerText = 'Lines: ' + this.linesCleared;
     }
 
     static updateScore() {
-        scoreText.innerText = 'Score: ' + this.score;   
+        scoreText.innerText = 'Score: ' + this.score;
+        linesText.innerText = 'Lines: ' + this.linesCleared;   
+    }
+
+    static updateOtherScore(score, linesCleared) {
+        otherScoreText.innerText = 'Score: ' + score;
+        otherLinesText.innerText = 'Lines: ' + linesCleared;  
     }
 
 

@@ -3,7 +3,6 @@ Game.init();
 document.addEventListener('keydown', (e) => {
 
     let key = e.code;
-    console.log(e.code)
     if (Game.alternativeKeysContainsKey(key)) {
         key = Game.getAlternativeKeys(key);
     }
@@ -30,5 +29,3 @@ document.addEventListener('keyup', (e) => {
         Game.setActiveKeys(key, null);
     }
 });
-
-Game.newGame();
