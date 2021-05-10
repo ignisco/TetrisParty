@@ -17,6 +17,10 @@ canvas {
 #canvasesDiv {
     display: flex;
     flex-direction: row;
+
+    justify-content: center;
+    margin-top: 5%;
+    align-items: center;
 }
 
 .playerDivs {
@@ -54,4 +58,22 @@ p {
     color: white;
     font-size: 3vh;
     margin: 10px;
+}
+
+button {
+    color: #000;
+    padding: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin:10px
+}
+
+input {
+    color: #000;
+    padding: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin:10px
 }
