@@ -306,4 +306,16 @@ class Shape {
         this.activateShadowInGrid();
         this.activateInGrid();
     }
+
+
+    deactivateAll() {
+        this.deactivateShadowInGrid();
+        this.deactivateInGrid();
+    }
+
+
+    activateAll() {
+        this.activateShadowInGrid();
+        this.activateInGrid();
+    }
 }

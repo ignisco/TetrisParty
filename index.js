@@ -77,6 +77,11 @@ io.on('connection', (socket) => {
         io.sockets.to(gameState.recipient).emit('receiveGameState', gameState);
     });
 
+    // Send blocks
+    socket.on('sendBlocks', function(data){
+        io.sockets.to(data.recipient).emit('receiveBlocks', data.lines);
+    });
+
      // Notify other player you got game over
      socket.on('lostGame', function(otherGameId){
         playerToGame.delete(socket.id);

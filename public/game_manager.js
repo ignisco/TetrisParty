@@ -3,6 +3,10 @@ Game.init();
 document.addEventListener('keydown', (e) => {
 
     let key = e.code;
+    // if (e.code == "KeyK") { ONLY USED FOR TESTING
+    //     Game.sendBlocks(2);
+    //     return;
+    // }
     if (Game.alternativeKeysContainsKey(key)) {
         key = Game.getAlternativeKeys(key);
     }

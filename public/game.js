@@ -1,3 +1,10 @@
+// Make connection
+var socket = io.connect('192.168.10.182:4000');
+var otherSocketId;
+var sendDataInterval;
+
+
+
 var KeyCode = {
     W: "KeyW",
     A: "KeyA",
@@ -315,8 +322,22 @@ class Game {
             this.updateScore();
             this.updateNextShapeQueue();
             this.canUseHold = true;
+
+            this.sendBlocks(lineCounter);
+
         }
 
+    }
+
+    // Send garbage blocks
+    static sendBlocks (lineCounter) {
+        let data;
+        if (lineCounter > 1) {
+            socket.emit('sendBlocks', data = {
+                lines : lineCounter,
+                recipient : otherSocketId
+            });
+        }
     }
 
     static isCompletedLine(y) {

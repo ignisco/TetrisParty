@@ -1,8 +1,3 @@
-// Make connection
-var socket = io.connect('192.168.10.182:4000');
-var otherSocketId;
-var sendDataInterval;
-
 // UI Elements
 var hostButton = document.getElementById('hostButton');
 var joinButton = document.getElementById('joinButton');
@@ -55,6 +50,47 @@ socket.on('receiveGameState', function(gameState){
 
     Game.updateOtherScore(gameState.score, gameState.linesCleared);
     
+});
+
+socket.on('receiveBlocks', function(lines){
+
+    // Checking if the line y = 0 contains a block. If it does, adding a garbage line will knock out the player
+    function topLineContainsBlock() {
+        for (let x = 0; x < Game.GAME_GRID_WIDTH; x++) {
+            if (Game.getGameGrid(x, 0) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    let amount = {2 : 1, 3: 2, 4: 4}[lines];
+    let openX = Math.floor(Math.random() * Game.GAME_GRID_WIDTH);
+    Game.activeShape.deactivateAll();
+    for (let i = 0; i < amount; i++) {
+        if (topLineContainsBlock()) {
+            Game.setGameOver();
+        }
+
+        // TODO: Other ways to prevent activeShape from possible collisions?
+        Game.activeShape.posY -= 1;
+
+        for (let y = 0; y < Game.GAME_GRID_HEIGHT; y++) {
+            for (let x = 0; x < Game.GAME_GRID_WIDTH; x++) {
+                if (y == Game.GAME_GRID_HEIGHT - 1) {
+                    if (x == openX) {
+                        Game.setGameGrid(x, y, null);
+                    } else {
+                        Game.setGameGrid(x, y, 'white');
+                    }
+                } else {
+                    Game.setGameGrid(x, y, Game.getGameGrid(x, y + 1));
+                }
+            }
+        }
+    }
+    Game.activeShape.activateAll();
 });
 
 // Server telling host that their game was successfully hosted
