@@ -68,6 +68,8 @@ class Game {
     static activeShape;
     static logicTimer;
     static inputTimer;
+    static logicTimerTimeout;
+    static inputTimerTimeout;
 
     static activeKeys = new Map();
     static alternativeKeys = new Map();
@@ -122,6 +124,12 @@ class Game {
         this.linesCleared = 0;
         this.updateScore();
 
+        // Reset timers; only need to check if one of the timeouts is defined
+        if (this.logicTimerTimeout) {
+            clearTimeout(this.logicTimerTimeout);
+            clearTimeout(this.inputTimerTimeout);
+        } 
+
     }
 
     static newGame() {
@@ -144,7 +152,9 @@ class Game {
                 Game.GAME_GRID_WIDTH, Game.GAME_GRID_HEIGHT, Game.GAME_WIDTH, Game.GAME_HEIGHT)
             Game.drawPane(Game.holdCv, Game.holdCtx, Game.holdGrid, Game.HOLD_GRID_SIZE, 
                 Game.HOLD_GRID_WIDTH, Game.HOLD_GRID_HEIGHT, Game.HOLD_WIDTH, Game.HOLD_HEIGHT)
-            if (!Game.gameOver) window.setTimeout(logicTimer, 250);
+            if (!Game.gameOver) {
+                Game.logicTimerTimeout = window.setTimeout(logicTimer, 250);
+            }
         }
         logicTimer();
 
@@ -152,7 +162,9 @@ class Game {
         // Timer related to how frequently input keys affect the game logic
         function inputTimer() {
             Game.activeKeysHandling();
-            if (!Game.gameOver) window.setTimeout(inputTimer, 1000 / 30);
+            if (!Game.gameOver) {
+                Game.inputTimerTimeout = window.setTimeout(inputTimer, 1000 / 30);
+            }
         }
         inputTimer();
 

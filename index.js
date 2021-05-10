@@ -24,12 +24,18 @@ io.on('connection', (socket) => {
         let gameId = playerToGame.get(socket.id);
         playerToGame.delete(socket.id);
         let otherSocket = Array.from(playerToGame.keys()).find(key => playerToGame.get(key) == gameId);
-        io.sockets.to(otherSocket).emit('opponentDisconnected');
-
+        if (otherSocket) {
+            io.sockets.to(otherSocket).emit('opponentDisconnected');
+        }
     });
 
     // Host new game
     socket.on('hostGame', function(){
+
+        if (playerToGame.get(socket.id)) {  // Not allowed to host if already in-game
+            return;
+        }
+
         let gameId = 1000;
         do {
             gameId = Math.floor(1000 + Math.random() * 9000);
@@ -78,8 +84,10 @@ io.on('connection', (socket) => {
         // }
     });
 
-     // Send game state
+     // Notify other player you got game over
      socket.on('lostGame', function(otherGameId){
+        playerToGame.delete(socket.id);
+        playerToGame.delete(otherGameId);
         io.sockets.to(otherGameId).emit('gameWon');
     });
 
