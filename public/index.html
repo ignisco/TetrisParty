@@ -9,7 +9,6 @@
     <body>
         <div id="canvasesDiv">
             <div id="thisPlayerDiv" class="playerDivs">
-                <canvas id="gameCv" class="gameCvs" width="500" height="1200"></canvas>
                 <div class="sideCVs">
                     <p>Hold</p>
                     <canvas id="holdCv" class="holdCvs" width="240" height="160"></canvas>
@@ -22,9 +21,9 @@
                     <input type="number" id="gameIdInputField" minlength="4" maxlength="4" placeholder="Game ID">
                     <p id="hostingFeedback">Currently not hosting</p>
                 </div>
+                <canvas id="gameCv" class="gameCvs" width="500" height="1200"></canvas>
             </div>
             <div id="otherPlayerDiv" class="playerDivs">
-                <canvas id="otherGameCv" class="gameCvs" width="500" height="1200"></canvas>
                 <div class="sideCVs">
                     <p>Hold</p>
                     <canvas id="otherHoldCv" class="holdCvs" width="240" height="160"></canvas>
@@ -33,6 +32,7 @@
                     <p id="otherScoreText">Score: 0</p>
                     <p id="otherLinesText">Lines: 0</p>
                 </div>
+                <canvas id="otherGameCv" class="gameCvs" width="500" height="1200"></canvas>
             </div>
         </div>
     </body>
