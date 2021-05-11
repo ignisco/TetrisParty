@@ -60,6 +60,14 @@ p {
     margin: 0.5vh;
 }
 
+#connectionFeedback {
+    color: white;
+}
+
+#connectionWarning {
+    color: yellow;
+}
+
 
 
 button, input {

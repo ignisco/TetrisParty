@@ -33,7 +33,13 @@ io.on('connection', (socket) => {
     // Host new game
     socket.on('hostGame', function(){
 
-        if (playerToGame.get(socket.id)) {  // Not allowed to host if already in-game
+        if (playerToGame.get(socket.id)) {
+            let players = Array.from(playerToGame.keys()).filter(key => playerToGame.get(key) == playerToGame.get(socket.id));
+            if (players.length == 1) {
+                io.sockets.to(socket.id).emit('warning', "Already hosting game");
+            } else {
+                io.sockets.to(socket.id).emit('warning', "Can't host while in-game");
+            }
             return;
         }
 
@@ -53,7 +59,7 @@ io.on('connection', (socket) => {
         for (let entry of playerToGame.entries()) {
 
             if (entry[0] == socket.id) { // Player has already joined a game
-                io.sockets.to(socket.id).emit('gameJoined', null); // Not allowed to join two games at once
+                io.sockets.to(socket.id).emit('warning', "Can't join while hosting/in-game"); // Not allowed to join two games at once
                 return;
             }
 
@@ -69,8 +75,13 @@ io.on('connection', (socket) => {
             io.sockets.to(hostSocketId).emit('playerJoined', socket.id); // Telling host that a player has joined
             return;
         }
-        
-        io.sockets.to(socket.id).emit('gameJoined', null); // Failed to join game; either not hosted or already two players
+        else if (count > 1) {
+            io.sockets.to(socket.id).emit('warning', "Already two players in game"); // Failed to join game; already two players
+        }
+        else
+        {
+            io.sockets.to(socket.id).emit('warning', "Couldn't find game"); // Failed to join game; not hosted
+        }
     });
 
     // Send game state
