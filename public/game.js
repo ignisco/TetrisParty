@@ -1,5 +1,5 @@
 // Make connection
-var socket = io.connect('https://tetrisparty.herokuapp.com');
+var socket = io.connect('localhost:4000');
 var otherSocketId;
 var sendDataInterval;
 

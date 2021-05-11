@@ -2,7 +2,8 @@
 var hostButton = document.getElementById('hostButton');
 var joinButton = document.getElementById('joinButton');
 var gameIdInputField = document.getElementById('gameIdInputField');
-var hostingFeedback = document.getElementById('hostingFeedback');
+var connectionFeedback = document.getElementById('connectionFeedback');
+var connectionWarning = document.getElementById('connectionWarning');
 
 // EventListeners for buttons
 hostButton.addEventListener('click', function() {
@@ -13,6 +14,13 @@ joinButton.addEventListener('click', function() {
     socket.emit('joinGame', gameIdInputField.value);
     joinButton.blur();
 });
+
+// connectionWarning timer
+function warningFadeout() {
+    setTimeout(function() {
+        connectionWarning.innerHTML = "";
+    }, 1000);
+}
 
 
 // Emit events
@@ -30,8 +38,8 @@ function startDataInterval (opponentId)  {
     
         if (Game.gameOver) {
             socket.emit('lostGame', otherSocketId);
-            hostingFeedback.innerHTML = "Game Lost :(";
-            hostingFeedback.style.color = "yellow";
+            connectionFeedback.innerHTML = "Game Lost :(";
+            connectionFeedback.style.color = "yellow";
             clearInterval(sendDataInterval);
         }
     }, 33);
@@ -95,25 +103,27 @@ socket.on('receiveBlocks', function(lines){
 
 // Server telling host that their game was successfully hosted
 socket.on('hostingStarted', function(gameId){
-    hostingFeedback.innerHTML = "Now hosting at " + gameId;
-    hostingFeedback.style.color = "white";
+    connectionWarning.innerHTML = "";
+    connectionFeedback.innerHTML = "Now hosting at " + gameId;
 });
 
-// Server telling "joiner" that they successfully joined a game
+// Server telling "joiner" they successfully joined a game
 socket.on('gameJoined', function(hostSocketId){
-    if (hostSocketId != null) {
-        hostingFeedback.innerHTML = "Successfully joined game";
-        hostingFeedback.style.color = "white";
-        startDataInterval(hostSocketId);
-        Game.newGame();
-    } else {
-        hostingFeedback.innerHTML = "Failed to join game";
-        hostingFeedback.style.color = "yellow";
-    }
+    connectionWarning.innerHTML = "";
+    connectionFeedback.innerHTML = "Successfully joined game";
+    startDataInterval(hostSocketId);
+    Game.newGame();
+});
+
+// Server giving warnings when trying to join/host while already in-game etc.
+socket.on('warning', function(message){
+    connectionWarning.innerHTML = message;
+    warningFadeout();
 });
 
 // Server telling host that a second player joined their game
 socket.on('playerJoined', function(joinerSocketId){
+    connectionFeedback.innerHTML = "Someone joined your game";
     startDataInterval(joinerSocketId);
     Game.newGame();
 });
@@ -121,15 +131,13 @@ socket.on('playerJoined', function(joinerSocketId){
 // Server telling player that the other player just got game over/lost
 socket.on('gameWon', function(){
     clearInterval(sendDataInterval);
-    hostingFeedback.innerHTML = "Game Won! :D";
-    hostingFeedback.style.color = "yellow";
+    connectionFeedback.innerHTML = "Game Won! :D";
     Game.setGameOver(); // Only to stop the winning player's game on their own client
 });
 
 // Server telling player that the other player just disconnected
 socket.on('opponentDisconnected', function(){
     clearInterval(sendDataInterval);
-    hostingFeedback.innerHTML = "Opponent disconnected";
-    hostingFeedback.style.color = "yellow";
+    connectionWarning.innerHTML = "Opponent disconnected";
     Game.setGameOver();
 });
