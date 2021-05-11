@@ -39,7 +39,6 @@ function startDataInterval (opponentId)  {
         if (Game.gameOver) {
             socket.emit('lostGame', otherSocketId);
             connectionFeedback.innerHTML = "Game Lost :(";
-            connectionFeedback.style.color = "yellow";
             clearInterval(sendDataInterval);
         }
     }, 33);
@@ -115,17 +114,17 @@ socket.on('gameJoined', function(hostSocketId){
     Game.newGame();
 });
 
-// Server giving warnings when trying to join/host while already in-game etc.
-socket.on('warning', function(message){
-    connectionWarning.innerHTML = message;
-    warningFadeout();
-});
-
 // Server telling host that a second player joined their game
 socket.on('playerJoined', function(joinerSocketId){
     connectionFeedback.innerHTML = "Someone joined your game";
     startDataInterval(joinerSocketId);
     Game.newGame();
+});
+
+// Server giving warnings when trying to join/host while already in-game etc.
+socket.on('warning', function(message){
+    connectionWarning.innerHTML = message;
+    warningFadeout();
 });
 
 // Server telling player that the other player just got game over/lost
@@ -139,5 +138,19 @@ socket.on('gameWon', function(){
 socket.on('opponentDisconnected', function(){
     clearInterval(sendDataInterval);
     connectionWarning.innerHTML = "Opponent disconnected";
+    connectionFeedback.innerHTML = "Currently not in game";
     Game.setGameOver();
+});
+
+// Easteregg when player tries to host and then join their own game
+socket.on('easteregg', function(yourOwnId){
+    clearInterval(sendDataInterval); // In case you press join multiple times on your own game
+    connectionFeedback.innerHTML = "500 IQ BRO XD";
+    startDataInterval(yourOwnId);
+    Game.newGame();
+});
+
+// When you play against yourself, the only result is a draw xD
+socket.on('eastereggDraw', function(){
+    connectionFeedback.innerHTML = "Wow, a draw! That was a really close match, maybe you'll beat yourself next time ;)";
 });
