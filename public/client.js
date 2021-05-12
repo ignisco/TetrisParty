@@ -107,17 +107,19 @@ socket.on('hostingStarted', function(gameId){
 });
 
 // Server telling "joiner" they successfully joined a game
-socket.on('gameJoined', function(hostSocketId){
+socket.on('gameJoined', function(data){
+    Math.seedrandom(data.seed);
     connectionWarning.innerHTML = "";
     connectionFeedback.innerHTML = "Successfully joined game";
-    startDataInterval(hostSocketId);
+    startDataInterval(data.socketId);
     Game.newGame();
 });
 
 // Server telling host that a second player joined their game
-socket.on('playerJoined', function(joinerSocketId){
+socket.on('playerJoined', function(data){
+    Math.seedrandom(data.seed);
     connectionFeedback.innerHTML = "Someone joined your game";
-    startDataInterval(joinerSocketId);
+    startDataInterval(data.socketId);
     Game.newGame();
 });
 

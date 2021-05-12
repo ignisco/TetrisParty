@@ -87,8 +87,9 @@ io.on('connection', (socket) => {
                 return;
             }
             playerToGame.set(socket.id, gameId);
-            io.sockets.to(socket.id).emit('gameJoined', hostSocketId); // Game successfully joined
-            io.sockets.to(hostSocketId).emit('playerJoined', socket.id); // Telling host that a player has joined
+            let seed = Math.random().toString(36).substring(7);
+            io.sockets.to(socket.id).emit('gameJoined', data = {socketId : hostSocketId, seed : seed}); // Game successfully joined
+            io.sockets.to(hostSocketId).emit('playerJoined', data = {socketId : socket.id, seed : seed}); // Telling host that a player has joined
         }
         else if (count > 1) {
             io.sockets.to(socket.id).emit('warning', "Already two players in game"); // Failed to join game; already two players
