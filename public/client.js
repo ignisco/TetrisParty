@@ -1,9 +1,12 @@
 // UI Elements
 var hostButton = document.getElementById('hostButton');
 var joinButton = document.getElementById('joinButton');
+var rematchButton = document.getElementById('rematchButton');
 var gameIdInputField = document.getElementById('gameIdInputField');
 var connectionFeedback = document.getElementById('connectionFeedback');
 var connectionWarning = document.getElementById('connectionWarning');
+
+rematchButton.style.display = "none";
 
 // EventListeners for buttons
 hostButton.addEventListener('click', function() {
@@ -13,6 +16,10 @@ hostButton.addEventListener('click', function() {
 joinButton.addEventListener('click', function() {
     socket.emit('joinGame', gameIdInputField.value);
     joinButton.blur();
+});
+rematchButton.addEventListener('click', function() {
+    socket.emit('startRematch', otherSocketId);
+    rematchButton.blur();
 });
 
 // connectionWarning timer
@@ -40,6 +47,7 @@ function startDataInterval (opponentId)  {
             socket.emit('lostGame', otherSocketId);
             connectionFeedback.innerHTML = "Game Lost :(";
             clearInterval(sendDataInterval);
+            rematchButton.style.display = "block";
         }
     }, 33);
 }
@@ -107,17 +115,30 @@ socket.on('hostingStarted', function(gameId){
 });
 
 // Server telling "joiner" they successfully joined a game
-socket.on('gameJoined', function(hostSocketId){
+socket.on('gameJoined', function(data){
+    rematchButton.style.display = "none";
+    Math.seedrandom(data.seed);
     connectionWarning.innerHTML = "";
     connectionFeedback.innerHTML = "Successfully joined game";
-    startDataInterval(hostSocketId);
+    startDataInterval(data.socketId);
     Game.newGame();
 });
 
 // Server telling host that a second player joined their game
-socket.on('playerJoined', function(joinerSocketId){
+socket.on('playerJoined', function(data){
+    rematchButton.style.display = "none";
+    Math.seedrandom(data.seed);
     connectionFeedback.innerHTML = "Someone joined your game";
-    startDataInterval(joinerSocketId);
+    startDataInterval(data.socketId);
+    Game.newGame();
+});
+
+// Server telling host that a second player joined their game
+socket.on('rematchGame', function(data){
+    rematchButton.style.display = "none";
+    Math.seedrandom(data.seed);
+    connectionFeedback.innerHTML = data.message;
+    startDataInterval(otherSocketId);
     Game.newGame();
 });
 
@@ -132,6 +153,7 @@ socket.on('gameWon', function(){
     clearInterval(sendDataInterval);
     connectionFeedback.innerHTML = "Game Won! :D";
     Game.setGameOver(); // Only to stop the winning player's game on their own client
+    rematchButton.style.display = "block";
 });
 
 // Server telling player that the other player just disconnected

@@ -14,6 +14,19 @@ app.use(express.static('public'));
 // Variables
 var playerToGame = new Map();
 
+function newGameId () {
+    let gameId = 0;
+    do {
+        gameId = Math.floor(1000 + Math.random() * 9000);
+    }
+    while (Array.from(playerToGame.values()).find(code => code == gameId))
+    return gameId;
+}
+
+function newSeed () {
+    return Math.random().toString(36).substring(7);
+}
+
 // Socket setup & pass server
 var io = socket(server);
 io.on('connection', (socket) => {
@@ -45,11 +58,7 @@ io.on('connection', (socket) => {
             return;
         }
 
-        let gameId = 1000;
-        do {
-            gameId = Math.floor(1000 + Math.random() * 9000);
-        }
-        while (Array.from(playerToGame.values()).find(code => code == gameId))
+        let gameId = newGameId();
         playerToGame.set(socket.id, gameId);
         io.sockets.to(socket.id).emit('hostingStarted', gameId);
     });
@@ -87,8 +96,9 @@ io.on('connection', (socket) => {
                 return;
             }
             playerToGame.set(socket.id, gameId);
-            io.sockets.to(socket.id).emit('gameJoined', hostSocketId); // Game successfully joined
-            io.sockets.to(hostSocketId).emit('playerJoined', socket.id); // Telling host that a player has joined
+            let seed = newSeed();
+            io.sockets.to(socket.id).emit('gameJoined', data = {socketId : hostSocketId, seed : seed}); // Game successfully joined
+            io.sockets.to(hostSocketId).emit('playerJoined', data = {socketId : socket.id, seed : seed}); // Telling host that a player has joined
         }
         else if (count > 1) {
             io.sockets.to(socket.id).emit('warning', "Already two players in game"); // Failed to join game; already two players
@@ -97,6 +107,25 @@ io.on('connection', (socket) => {
         {
             io.sockets.to(socket.id).emit('warning', "Couldn't find game"); // Failed to join game; not hosted
         }
+    });
+
+    // Starting Rematch
+    socket.on('startRematch', function(otherPlayer){
+        // Puts player back in a game, don't care about people trying to break the code (for now)
+        let gameId = newGameId();
+        playerToGame.set(socket.id, gameId);
+
+        // Easter egg check
+        if (otherPlayer == socket.id) {
+            io.sockets.to(socket.id).emit('easteregg', socket.id);
+            return;
+        }
+
+        let seed = newSeed();
+        io.sockets.to(socket.id).emit('rematchGame', data = {seed : seed, message: "You started a rematch"});
+        // Puts second player into the same game
+        playerToGame.set(otherPlayer, gameId);
+        io.sockets.to(otherPlayer).emit('rematchGame', data = {seed : seed, message: "Opponent started a rematch"});
     });
 
     // Send game state
