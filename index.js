@@ -121,6 +121,12 @@ io.on('connection', (socket) => {
             return;
         }
 
+        // Opponent left
+        if ( Array.from(io.sockets.adapter.rooms.keys()).find(socket => socket == otherPlayer) == undefined) {
+            io.sockets.to(socket.id).emit('warning', "Opponent is no longer online");
+            return;
+        }
+
         let seed = newSeed();
         io.sockets.to(socket.id).emit('rematchGame', data = {seed : seed, message: "You started a rematch"});
         // Puts second player into the same game
