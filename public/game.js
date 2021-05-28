@@ -142,7 +142,7 @@ class Game {
         // Resets music
         this.music.pause();
         this.music.src = "audio/song.mp3";
-        this.music.volume = 0.3;
+        this.music.volume = 0.1;
         this.music.play();
 
     }
